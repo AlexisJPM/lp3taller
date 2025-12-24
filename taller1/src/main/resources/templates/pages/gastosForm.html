@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <title>Gestion Humana</title>
+</head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<div th:replace="~{fragments/layout :: sidebar}"></div>
+
+<div class="p-4 sm:ml-64 mt-14">
+    <div class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+
+        <div class="mb-6 ">
+            <h2 class="text-2xl font-bold text-gray-900">Formulario de Gastos Personales</h2>
+            <p class="text-sm text-gray-500">Ingrese su proyeccion de Gastos Personales para el periodo que le corresponda.</p>
+        </div>
+
+        <form th:action="@{/gastos/registrarGasto}" method="post" th:object="${nuevoGasto}" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <div>
+                <label class="block mb-2 text-sm font-medium text-gray-900">Periodo</label>
+                <input type="number" th:field="*{periodo}" name="periodo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Ej: 2025" required>
+            </div>
+
+            <div>
+                <label class="block mb-2 text-sm font-medium text-gray-900">Gastos de Vivienda</label>
+                <input type="number" th:field="*{vivienda}" name="vivienda" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            </div>
+
+            <div>
+                <label class="block mb-2 text-sm font-medium text-gray-900">Gastos de Educacion</label>
+                <input type="number" th:field="*{educacion}" name="educacion" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            </div>
+
+            <div>
+                <label class="block mb-2 text-sm font-medium text-gray-900">Gastos de Salud</label>
+                <input type="number" th:field="*{salud}" name="salud" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            </div>
+
+            <div>
+                <label class="block mb-2 text-sm font-medium text-gray-900">Gastos de Vestimenta</label>
+                <input type="number" th:field="*{vestimenta}" name="vestimenta" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            </div>
+            <div>
+                <label class="block mb-2 text-sm font-medium text-gray-900">Gastos de Alimentacion</label>
+                <input type="number" th:field="*{alimentacion}" name="alimentacion" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            </div>
+            <div>
+                <label class="block mb-2 text-sm font-medium text-gray-900">Gastos de Turismo</label>
+                <input type="number" th:field="*{turismo}" name="turismo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            </div>
+
+            <div class="relative z-0 w-full mb-5 group">
+                <input hidden type="number" th:field="*{id}" name="id" id="id" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
+            </div>
+
+            <div class="md:col-span-2 flex justify-end gap-3">
+                <a th:href="@{/gastos}" class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700">
+                    Cancelar
+                </a>
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">
+                    Guardar Solicitud
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<!--Inicio Tabla-->
+<div class="p-1 sm:ml-64 ">
+    <div class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+
+        <div class="mb-6 text-center">
+            <h2 class="text-2xl font-bold text-gray-900">Proyecciones Ingresadas</h2>
+        </div>
+        <!--VACACIONES-->
+        <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
+            <table class="w-full text-sm text-left rtl:text-right text-body">
+                <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">
+                <tr>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Periodo
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Gastos de Vivienda
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Gastos de Educacion
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Gastos de Salud
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Gastos de Vestimenta
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Gastos de Alimentacion
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Gastos de Turismo
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        <span class="sr-only">Edit</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="gastos:${listaDeGastos}" class="bg-neutral-primary-soft border-b border-default hover:bg-neutral-secondary-medium">
+                    <th th:text="*{gastos.periodo}" scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
+
+                    </th>
+                    <td th:text="*{gastos.vivienda}" class="px-6 py-4">
+
+                    </td>
+                    <td th:text="*{gastos.educacion}" class="px-6 py-4">
+
+                    </td>
+                    <td th:text="*{gastos.salud}" class="px-6 py-4">
+
+                    </td>
+                    <td th:text="*{gastos.vestimenta}" class="px-6 py-4">
+
+                    </td>
+                    <td th:text="*{gastos.alimentacion}" class="px-6 py-4">
+
+                    </td>
+                    <td th:text="*{gastos.turismo}" class="px-6 py-4">
+
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <a th:href="@{/gastos/editarSolicitud/} +${gastos.id}" class="font-medium text-fg-brand hover:underline">Edit</a>
+                        <form th:action="@{/gastos/eliminarSolicitud/} +${gastos.id}" method="post">
+                            <input type="hidden" name="_method" value="delete">
+                            <button type="submit" onclick="return confirm('Estas seguro de eliminar el registro!!!')">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

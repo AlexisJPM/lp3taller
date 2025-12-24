@@ -15,11 +15,11 @@
     <div class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
 
         <div class="mb-6 ">
-            <h2 class="text-2xl font-bold text-gray-900">Formulario de Solicitud de Vacaciones</h2>
-            <p class="text-sm text-gray-500">Complete los campos para ingresar una nueva solicitud al sistema.</p>
+            <h2 class="text-2xl font-bold text-gray-900">Formulario de Permisos</h2>
+            <p class="text-sm text-gray-500">Complete los campos para registrar su permiso.</p>
         </div>
 
-        <form action="/solicitud/registrarSolicitud" method="post" th:object="${solicitud}" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form action="/permiso/registrarPermiso" method="post" th:object="${permiso}" class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             <div>
                 <label class="block mb-2 text-sm font-medium text-gray-900">Nombres Completo</label>
@@ -46,6 +46,7 @@
                 <input type="email" th:field="*{email}" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="nombre@correo.com" required>
             </div>
 
+
             <div class="md:col-span-2">
                 <label class="block mb-2 text-sm font-medium text-gray-900">Descripción de la Solicitud</label>
                 <textarea th:field="*{descripcion}" name="descripcion" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Escriba aquí los detalles..."></textarea>
@@ -55,7 +56,7 @@
             </div>
 
             <div class="md:col-span-2 flex justify-end gap-3">
-                <a th:href="@{/solicitud}" class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700">
+                <a th:href="@{/permiso}" class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700">
                     Cancelar
                 </a>
                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">
