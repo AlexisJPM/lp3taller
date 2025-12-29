@@ -13,22 +13,14 @@
 <!--Contenido principal-->
 <div class="p-4 sm:ml-64 mt-14">
     <div class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-
         <div class="mb-6 text-center">
             <h2 class="text-2xl font-bold text-gray-900">Solicitudes Generadas</h2>
         </div>
-        <!--VACACIONES-->
+        <!--Permisos-->
         <div class="mb-6">
-            <h2 class="text-1xl font-bold text-gray-900">Solicitudes De Vacaciones</h2>
+            <h2 class="text-1xl font-bold text-gray-900">Solicitudes De Permisos</h2>
         </div>
         <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
-            <!--BUSCARLIBRO-->
-            <form th:action="@{solicitud}" method="get" class="mb-3">
-                <div class="input-group">
-                    <input type="text" name="buscarSolictud" class="form-control" placeholder="Buscar solicitud" th:value="${buscarSolicitud}">
-                    <button class="btn btn-primary" type="submit">Buscar</button>
-                </div>
-            </form>
 
             <table class="w-full text-sm text-left rtl:text-right text-body">
                 <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">
@@ -57,28 +49,28 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="solicitud:${solicitud}" class="bg-neutral-primary-soft border-b border-default hover:bg-neutral-secondary-medium">
-                    <th th:text="*{solicitud.nombres}" scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
+                <tr th:each="permiso:${listaPermisos}" class="bg-neutral-primary-soft border-b border-default hover:bg-neutral-secondary-medium">
+                    <th th:text="*{permiso.nombres}" scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
 
                     </th>
-                    <td th:text="*{solicitud.apellidos}" class="px-6 py-4">
+                    <td th:text="*{permiso.apellidos}" class="px-6 py-4">
 
                     </td>
-                    <td th:text="*{solicitud.fechaDesde}" class="px-6 py-4">
+                    <td th:text="*{permiso.fechaDesde}" class="px-6 py-4">
 
                     </td>
-                    <td th:text="*{solicitud.fechaHasta}" class="px-6 py-4">
+                    <td th:text="*{permiso.fechaHasta}" class="px-6 py-4">
 
                     </td>
-                    <td th:text="*{solicitud.email}" class="px-6 py-4">
+                    <td th:text="*{permiso.email}" class="px-6 py-4">
 
                     </td>
-                    <td th:text="*{solicitud.descripcion}" class="px-6 py-4">
+                    <td th:text="*{permiso.descripcion}" class="px-6 py-4">
 
                     </td>
                     <td class="px-6 py-4 text-right">
-                        <a th:href="@{/solicitud/editarSolicitud/} +${solicitud.id}" class="font-medium text-fg-brand hover:underline">Edit</a>
-                        <form th:action="@{/solicitud/eliminarSolicitud/} +${solicitud.id}" method="post">
+                        <a th:href="@{/permiso/editarPermiso/} +${permiso.id}" class="font-medium text-fg-brand hover:underline">Edit</a>
+                        <form th:action="@{/permiso/eliminarPermiso/} +${permiso.id}" method="post">
                             <input type="hidden" name="_method" value="delete">
                             <button type="submit" onclick="return confirm('Estas seguro de eliminar el registro!!!')">Eliminar</button>
                         </form>
@@ -89,8 +81,7 @@
             </table>
         </div>
     </div>
-</div>
-<!--fincontenido principal-->
 
+</div>
 </body>
 </html>

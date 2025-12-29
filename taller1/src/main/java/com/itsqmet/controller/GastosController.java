@@ -1,18 +1,17 @@
 package com.itsqmet.controller;
 
 import com.itsqmet.model.Gastos;
+import com.itsqmet.model.Permiso;
 import com.itsqmet.service.GastosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
-@RequestMapping("/gastos"
-)
+@RequestMapping("/gastos")
 public class GastosController {
 
     @Autowired
@@ -33,6 +32,22 @@ public class GastosController {
     public String guardar(@ModelAttribute("nuevoGasto") Gastos gastos) {
         gastosService.guardarGasto(gastos);
         return "redirect:/gastos/nuevoGasto"; // Redirige para refrescar la tabla
+    }
+
+    //Actualizar
+    @GetMapping("/editarGasto/{id}")
+    public String actualizarGastos(@PathVariable Long id, Model model) {
+        Optional<Gastos> gastos = gastosService.buscarGastosById(id);
+        model.addAttribute("nuevoGasto", gastos.orElse(new Gastos()));
+        model.addAttribute("listaDeGastos", gastosService.mostrarGasto());
+        return "pages/gastosForm";
+    }
+
+    //Eliminar libro
+    @DeleteMapping("/eliminarGasto/{id}")
+    public String eliminarGastos(@PathVariable Long id) {
+        gastosService.eliminarGasto(id);
+        return "redirect:/gastos/nuevoGasto";
     }
 
 }

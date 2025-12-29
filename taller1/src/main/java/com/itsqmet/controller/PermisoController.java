@@ -1,18 +1,17 @@
 package com.itsqmet.controller;
 
 import com.itsqmet.model.Permiso;
+import com.itsqmet.model.Solicitud;
 import com.itsqmet.service.PermisoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/permiso")
@@ -27,7 +26,7 @@ public class PermisoController {
         List<Permiso> listaPermisos = permisoService.mostrarPermiso();
         // Asegúrate de que este nombre sea el que uses en el th:each
         model.addAttribute("listaPermisos", listaPermisos);
-        return "pages/solicitudList";
+        return "pages/permisoList";
     }
 
     // 1. Mostrar formulario de permiso
@@ -46,6 +45,21 @@ public class PermisoController {
         }
         permisoService.guardarPermiso(permiso);
         return "redirect:/permiso"; // Redirige a la lista principal
+    }
+
+    //Actualizar
+    @GetMapping("/editarPermiso/{id}")
+    public String actualizarPermiso(@PathVariable Long id, Model model) {
+        Optional<Permiso> permiso = permisoService.buscarPermisoById(id);
+        model.addAttribute("permiso", permiso);
+        return "pages/permisoForm";
+    }
+
+    //Eliminar libro
+    @DeleteMapping("/eliminarPermiso/{id}")
+    public String eliminarPermiso(@PathVariable Long id) {
+        permisoService.eliminarPermiso(id);
+        return "redirect:/permiso";
     }
 
 

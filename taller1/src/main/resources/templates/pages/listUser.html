@@ -13,22 +13,15 @@
 <!--Contenido principal-->
 <div class="p-4 sm:ml-64 mt-14">
     <div class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-
         <div class="mb-6 text-center">
-            <h2 class="text-2xl font-bold text-gray-900">Solicitudes Generadas</h2>
+            <h2 class="text-2xl font-bold text-gray-900">Usuarios Registrados</h2>
         </div>
-        <!--VACACIONES-->
+        <!--Permisos-->
         <div class="mb-6">
-            <h2 class="text-1xl font-bold text-gray-900">Solicitudes De Vacaciones</h2>
+            <h2 class="text-1xl font-bold text-gray-900">Informacion de todos los usuarios registrados</h2>
         </div>
+
         <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
-            <!--BUSCARLIBRO-->
-            <form th:action="@{solicitud}" method="get" class="mb-3">
-                <div class="input-group">
-                    <input type="text" name="buscarSolictud" class="form-control" placeholder="Buscar solicitud" th:value="${buscarSolicitud}">
-                    <button class="btn btn-primary" type="submit">Buscar</button>
-                </div>
-            </form>
 
             <table class="w-full text-sm text-left rtl:text-right text-body">
                 <thead class="text-sm text-body bg-neutral-secondary-medium border-b border-default-medium">
@@ -37,19 +30,13 @@
                         Nombres
                     </th>
                     <th scope="col" class="px-6 py-3 font-medium">
-                        Apellidos
-                    </th>
-                    <th scope="col" class="px-6 py-3 font-medium">
-                        Fecha Inicio
-                    </th>
-                    <th scope="col" class="px-6 py-3 font-medium">
-                        Fecha Fin
+                        UserName
                     </th>
                     <th scope="col" class="px-6 py-3 font-medium">
                         Correo
                     </th>
                     <th scope="col" class="px-6 py-3 font-medium">
-                        Descripcion
+                        Acciones
                     </th>
                     <th scope="col" class="px-6 py-3 font-medium">
                         <span class="sr-only">Edit</span>
@@ -57,28 +44,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="solicitud:${solicitud}" class="bg-neutral-primary-soft border-b border-default hover:bg-neutral-secondary-medium">
-                    <th th:text="*{solicitud.nombres}" scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
-
+                <tr th:each="usuario:${usuarios}" class="bg-neutral-primary-soft border-b border-default hover:bg-neutral-secondary-medium">
+                    <th th:text="*{usuario.nombre}" scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
                     </th>
-                    <td th:text="*{solicitud.apellidos}" class="px-6 py-4">
-
+                    <td th:text="*{usuario.username}" class="px-6 py-4">
                     </td>
-                    <td th:text="*{solicitud.fechaDesde}" class="px-6 py-4">
-
-                    </td>
-                    <td th:text="*{solicitud.fechaHasta}" class="px-6 py-4">
-
-                    </td>
-                    <td th:text="*{solicitud.email}" class="px-6 py-4">
-
-                    </td>
-                    <td th:text="*{solicitud.descripcion}" class="px-6 py-4">
-
+                    <td th:text="*{usuario.email}" class="px-6 py-4">
                     </td>
                     <td class="px-6 py-4 text-right">
-                        <a th:href="@{/solicitud/editarSolicitud/} +${solicitud.id}" class="font-medium text-fg-brand hover:underline">Edit</a>
-                        <form th:action="@{/solicitud/eliminarSolicitud/} +${solicitud.id}" method="post">
+                        <a th:href="@{/usuarios/editarUsuario/} +${usuario.id}" class="font-medium text-fg-brand hover:underline">Edit</a>
+                        <form th:action="@{/usuarios/eliminarUsuario/} +${usuario.id}" method="post">
                             <input type="hidden" name="_method" value="delete">
                             <button type="submit" onclick="return confirm('Estas seguro de eliminar el registro!!!')">Eliminar</button>
                         </form>
@@ -89,8 +64,13 @@
             </table>
         </div>
     </div>
-</div>
-<!--fincontenido principal-->
 
+    <div class="bg-white p-6 mb-2 text-center mt-8 border border-gray-200 rounded-lg shadow-sm">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Crear Nuevo Usuario</h2>
+        <div>
+            <a th:href="@{/usuarios/formUsuario}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">Registrar</a>
+        </div>
+    </div>
+</div>
 </body>
 </html>
