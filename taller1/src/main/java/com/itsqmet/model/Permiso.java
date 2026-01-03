@@ -36,10 +36,14 @@ public class Permiso {
     @Size(min=5, max=200)
     private String descripcion;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     public Permiso() {
     }
 
-    public Permiso(Long id, String nombres, String apellidos, LocalDate fechaDesde, LocalDate fechaHasta, String email, String descripcion) {
+    public Permiso(Long id, String nombres, String apellidos, LocalDate fechaDesde, LocalDate fechaHasta, String email, String descripcion, Usuario usuario) {
         this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -47,6 +51,7 @@ public class Permiso {
         this.fechaHasta = fechaHasta;
         this.email = email;
         this.descripcion = descripcion;
+        this.usuario = usuario;
     }
 
     public Long getId() {
@@ -103,5 +108,13 @@ public class Permiso {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

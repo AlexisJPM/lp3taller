@@ -2,9 +2,13 @@ package com.itsqmet.controller;
 
 import com.itsqmet.model.Permiso;
 import com.itsqmet.model.Solicitud;
+import com.itsqmet.model.Usuario;
+import com.itsqmet.repository.UserRepository;
 import com.itsqmet.service.SolicitudService;
+import com.itsqmet.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,30 +21,40 @@ import java.util.Optional;
 public class FormController {
     @Autowired
     private SolicitudService solicitudService;
+    @Autowired
+    private UserRepository userRepository;
 
-    //LEER LA INFORMACION
+    // 1. LISTAR SOLICITUDES (Solo las del usuario logueado)
     @GetMapping
-    public String mostrarSolicitud(@RequestParam(name = "buscarSolicitud",
-            required = false, defaultValue = "") String buscarSolicitud, Model model) {
-        List<Solicitud> solicitud = solicitudService.buscarSolicitudPorNombre(buscarSolicitud);
-        model.addAttribute("buscarSolicitud", buscarSolicitud);
-        model.addAttribute("solicitud", solicitud);
+    public String listarSolicitudes(Model model, Authentication authentication) {
+        String username = authentication.getName();
+        Usuario usuario = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        List<Solicitud> lista  = solicitudService.mostrarSolicitudesPorUsuario(usuario.getId());
+        model.addAttribute("solicitud", lista);
         return "pages/solicitudList";
     }
 
-    //GUARDAR
-    //1.Mostrar formulario
+    // 2. MOSTRAR FORMULARIO (Para crear nueva)
     @GetMapping("/form")
     public String formSolicitud(Model model) {
-        Solicitud solicitud = new Solicitud();
-        model.addAttribute("solicitud", solicitud);
+        model.addAttribute("solicitud", new Solicitud());
         return "pages/solicitudForm";
     }
 
-    //2. Enviar los datos ingresados en el form a la db
+    // 3. GUARDAR O ACTUALIZAR
     @PostMapping("/registrarSolicitud")
-    public String guardarSolicitud(@Valid @ModelAttribute Solicitud solicitud) {
-        solicitudService.guardarSolicitud(solicitud);
+    public String registrar(@Valid @ModelAttribute Solicitud solicitud, Authentication authentication) {
+        String username = authentication.getName();
+        Usuario usuario = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        solicitud.setUsuario(usuario); // Asignamos el dueño de la solicitud
+        if (solicitud.getId() != null) {
+            solicitudService.actualizarSolicitud(solicitud.getId(), solicitud);
+        } else {
+            solicitudService.guardarSolicitud(solicitud);
+        }
         return "redirect:/solicitud";
     }
 

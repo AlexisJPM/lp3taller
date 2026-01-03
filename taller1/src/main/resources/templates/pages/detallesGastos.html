@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <title>Detalle de Gastos - Admin</title>
+</head>
+<body>
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<div th:replace="~{fragments/layout :: sidebar}"></div>
+
+<div class="p-4 sm:ml-64 mt-14">
+    <div class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+
+        <div class="mb-6 flex justify-between items-center">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-900" th:text="${'Reporte de Gastos: ' + usuario.nombre}">Usuario</h2>
+                <p class="text-sm text-gray-500" th:text="${'Correo: ' + usuario.email}">email@ejemplo.com</p>
+            </div>
+            <a th:href="@{/admin/usuarios}" class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                Volver a Usuarios
+            </a>
+        </div>
+
+        <div class="relative overflow-x-auto shadow-md rounded-lg border border-gray-100">
+            <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-white uppercase bg-[#122e54]">
+                <tr>
+                    <th scope="col" class="px-6 py-3">Periodo</th>
+                    <th scope="col" class="px-6 py-3">Vivienda</th>
+                    <th scope="col" class="px-6 py-3">Educación</th>
+                    <th scope="col" class="px-6 py-3">Salud</th>
+                    <th scope="col" class="px-6 py-3">Vestimenta</th>
+                    <th scope="col" class="px-6 py-3">Alimentación</th>
+                    <th scope="col" class="px-6 py-3">Turismo</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="g : ${usuario.listaGastos}" class="bg-white border-b hover:bg-gray-50">
+                    <th th:text="${g.periodo}" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"></th>
+                    <td th:text="${g.vivienda}" class="px-6 py-4"></td>
+                    <td th:text="${g.educacion}" class="px-6 py-4"></td>
+                    <td th:text="${g.salud}" class="px-6 py-4"></td>
+                    <td th:text="${g.vestimenta}" class="px-6 py-4"></td>
+                    <td th:text="${g.alimentacion}" class="px-6 py-4"></td>
+                    <td th:text="${g.turismo}" class="px-6 py-4"></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(usuario.listaGastos)}">
+                    <td colspan="7" class="px-6 py-10 text-center text-gray-500 italic">
+                        Este usuario no ha registrado proyecciones de gastos todavía.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -15,8 +15,7 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    private UserService
-            userService;
+    private UserService userService;
     //LEER LA INFORMACION
     @GetMapping
     public String mostrarUsuarios(Model model){

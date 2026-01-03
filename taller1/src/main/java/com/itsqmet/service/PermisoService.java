@@ -17,8 +17,8 @@ public class PermisoService {
     @Autowired
     private PermisoRepository permisoRepository;
 
-    public List<Permiso> mostrarPermiso(){
-        return permisoRepository.findAll();
+    public List<Permiso> mostrarPermiso(Long usuarioId){
+        return permisoRepository.findByUsuarioId(usuarioId);
     }
 
     //Buscar por id

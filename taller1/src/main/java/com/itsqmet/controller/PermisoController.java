@@ -2,9 +2,12 @@ package com.itsqmet.controller;
 
 import com.itsqmet.model.Permiso;
 import com.itsqmet.model.Solicitud;
+import com.itsqmet.model.Usuario;
+import com.itsqmet.repository.UserRepository;
 import com.itsqmet.service.PermisoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,12 +22,16 @@ public class PermisoController {
 
     @Autowired
     private PermisoService permisoService;
+    @Autowired
+    private UserRepository userRepository;
 
     //LEER LA INFORMACION
     @GetMapping
-    public String mostrarPermisos(Model model){
-        List<Permiso> listaPermisos = permisoService.mostrarPermiso();
-        // Asegúrate de que este nombre sea el que uses en el th:each
+    public String mostrarPermisos(Model model, Authentication authentication){
+        String username = authentication.getName();
+        Usuario usuario = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        List<Permiso> listaPermisos = permisoService.mostrarPermiso(usuario.getId());
         model.addAttribute("listaPermisos", listaPermisos);
         return "pages/permisoList";
     }
@@ -39,12 +46,17 @@ public class PermisoController {
 
     // 2. Enviar los datos ingresados en el form a la db
     @PostMapping("/registrarPermiso")
-    public String guardarPermiso(@Valid @ModelAttribute Permiso permiso, BindingResult result) {
-        if (result.hasErrors()) {
-            return "pages/permisoForm"; // Regresa al form si hay errores de validación
+    public String guardarPermiso(@Valid @ModelAttribute Permiso permiso, Authentication authentication) {
+        String username = authentication.getName();
+        Usuario usuario = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        permiso.setUsuario(usuario); // Asignamos el dueño de la solicitud
+        if (permiso.getId() != null) {
+            permisoService.actualizarPermiso(permiso.getId(), permiso);
+        } else {
+            permisoService.guardarPermiso(permiso);
         }
-        permisoService.guardarPermiso(permiso);
-        return "redirect:/permiso"; // Redirige a la lista principal
+        return "redirect:/permiso";
     }
 
     //Actualizar

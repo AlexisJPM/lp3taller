@@ -16,10 +16,9 @@ public class SolicitudService {
     @Autowired
     private SolicitudRepository solicitudRepository;
 
-    //leer
-    public List<Solicitud> mostrarSolicitud(){
-
-        return solicitudRepository.findAll();
+    // Solo muestra solicitudes del usuario logueado
+    public List<Solicitud> mostrarSolicitudesPorUsuario(Long usuarioId) {
+        return solicitudRepository.findByUsuarioId(usuarioId);
     }
 
     //Buscar por id
@@ -27,18 +26,9 @@ public class SolicitudService {
         return solicitudRepository.findById(id);
     }
 
-    //BUSCAR POR NOMBRES
-    public List<Solicitud> buscarSolicitudPorNombre(String buscarSolicitud){
-        if(buscarSolicitud== null || buscarSolicitud.isEmpty()){
-            return solicitudRepository.findAll();
-        }else{
-            return solicitudRepository.findByNombresContainingIgnoreCase(buscarSolicitud);
-        }
-    }
     //Guardar
-    public Solicitud guardarSolicitud(Solicitud solicitud){
-        solicitudRepository.save(solicitud);
-        return solicitud;
+    public Solicitud guardarSolicitud(Solicitud solicitud) {
+        return solicitudRepository.save(solicitud);
     }
 
     //Actualizar

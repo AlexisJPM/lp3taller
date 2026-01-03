@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Panel Administrativo - Usuarios</title>
+</head>
+<body>
+
+<div th:replace="~{fragments/layout :: navbar}"></div>
+<div th:replace="~{fragments/layout :: sidebar}"></div>
+
+<div class="p-4 sm:ml-64 pt-20">
+    <div class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div class="mb-4">
+            <h1 class="text-2xl font-bold text-[#122e54]">Control de Gastos Personales</h1>
+            <p class="text-gray-600">Seleccione un usuario para auditar sus registros de gastos.</p>
+        </div>
+
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-white uppercase bg-[#122e54]">
+                <tr>
+                    <th class="px-6 py-3">Nombre Completo</th>
+                    <th class="px-6 py-3">Nombre de Usuario</th>
+                    <th class="px-6 py-3">Correo Electrónico</th>
+                    <th class="px-6 py-3 text-center">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="u : ${usuarios}" class="bg-white border-b hover:bg-gray-50 transition-colors">
+                    <td class="px-6 py-4 font-semibold text-gray-900" th:text="${u.nombre}"></td>
+                    <td class="px-6 py-4" th:text="${u.username}"></td>
+                    <td class="px-6 py-4" th:text="${u.email}"></td>
+                    <td class="px-6 py-4 text-center">
+                        <a th:href="@{/admin/usuario/{id}/gastos(id=${u.id})}"
+                           class="inline-flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2z"/>
+                            </svg>
+                            Ver Gastos
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

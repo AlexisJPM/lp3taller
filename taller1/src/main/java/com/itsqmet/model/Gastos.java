@@ -14,8 +14,6 @@ public class Gastos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(unique = true)
     private Integer periodo;
 
     @PositiveOrZero
@@ -36,10 +34,14 @@ public class Gastos {
     @PositiveOrZero
     private BigDecimal turismo;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     public Gastos() {
     }
 
-    public Gastos(Long id, Integer periodo, BigDecimal vivienda, BigDecimal educacion, BigDecimal salud, BigDecimal vestimenta, BigDecimal alimentacion, BigDecimal turismo) {
+    public Gastos(Long id, Integer periodo, BigDecimal vivienda, BigDecimal educacion, BigDecimal salud, BigDecimal vestimenta, BigDecimal alimentacion, BigDecimal turismo, Usuario usuario) {
         this.id = id;
         this.periodo = periodo;
         this.vivienda = vivienda;
@@ -48,6 +50,7 @@ public class Gastos {
         this.vestimenta = vestimenta;
         this.alimentacion = alimentacion;
         this.turismo = turismo;
+        this.usuario = usuario;
     }
 
     public Long getId() {
@@ -112,5 +115,13 @@ public class Gastos {
 
     public void setTurismo(BigDecimal turismo) {
         this.turismo = turismo;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

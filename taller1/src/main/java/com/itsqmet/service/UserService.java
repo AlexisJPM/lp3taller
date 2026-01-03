@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -82,6 +83,19 @@ public class UserService implements UserDetailsService {
                 .password(usuario.getPassword())
                 .authorities(usuario.getRol().name())
                 .build();
+    }
+
+    //metodo para obtener el usuario con las
+    @Transactional(readOnly = true)
+    public Usuario obtenerUsuarioConGastosLazy(Long id) {
+        Usuario usuario = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        usuario.getListaGastos().size();
+        return usuario;
+    }
+
+    public List<Usuario> listarTodos() {
+        return userRepository.findAll();
     }
 
 }
